@@ -1,8 +1,11 @@
 package get_requests;
 
 import base_urls.HerokuAppBaseUrl;
+import io.restassured.RestAssured;
 import io.restassured.response.Response;
+import org.hamcrest.Matchers;
 import org.junit.Test;
+import org.testng.Assert;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.greaterThan;
@@ -30,14 +33,14 @@ public class Get05 extends HerokuAppBaseUrl {
         spec.pathParam("first","booking").queryParams("firstname", "John", "lastname", "Smith");
 
         // Send request and get response
-        Response response = given(spec).get("{first}");
+        Response response = RestAssured.given(spec).get("{first}");
         response.prettyPrint();
         System.out.println("response.asString() = " + response.asString());
 
         // Assertion
-        response.then().statusCode(200).body("bookingid", hasSize(greaterThan(0)));
+        response.then().statusCode(200).body("bookingid", Matchers.hasSize(Matchers.greaterThan(0)));
             //or
-        assertTrue(response.asString().contains("bookingid"));
+        Assert.assertTrue(response.asString().contains("bookingid"));
 
     }
 

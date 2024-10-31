@@ -1,6 +1,7 @@
 package get_requests;
 
 import base_urls.HerokuAppBaseUrl;
+import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
@@ -40,7 +41,7 @@ public class Get07 extends HerokuAppBaseUrl {
         spec.pathParams("p1","booking", "p2", "130");
 
         //Send the request and get the response
-        Response response = given(spec).get("{p1}/{p2}");         // syntax for more than one path param => "{}/{}"
+        Response response = RestAssured.given(spec).get("{p1}/{p2}");         // syntax for more than one path param => "{}/{}"
         response.prettyPrint();
 
         JsonPath jsonPath=response.jsonPath();

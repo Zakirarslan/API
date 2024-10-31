@@ -1,8 +1,10 @@
 package get_requests;
 
 import base_urls.JsonPlaceHolderBaseUrl;
+import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 
 import static io.restassured.RestAssured.given;
@@ -43,16 +45,16 @@ public class Get04 extends JsonPlaceHolderBaseUrl {
         //2. Set the expected data  --> do it later
         //3. Send the request and get the response
 
-        Response response = given(spec).when().get("{first}");          // ===> https://jsonplaceholder.typicode.com/todos
+        Response response = RestAssured.given(spec).when().get("{first}");          // ===> https://jsonplaceholder.typicode.com/todos
         response.prettyPrint();
 
         //4. Do assertion
         response.then()
                 .statusCode(200)                       // Validate that the status code is 200
                 .contentType(ContentType.JSON)           //Validate that the response is in JSON format
-                .body("id", hasSize(200))             // Validate that there are 200 items in the response
-                .body("title", hasItem("quis eius est sint explicabo"))     // Check if this specific title exist
-                .body("userId", hasItems(2, 7, 9));       // Validate that these userIds exist in the response
+                .body("id", Matchers.hasSize(200))             // Validate that there are 200 items in the response
+                .body("title", Matchers.hasItem("quis eius est sint explicabo"))     // Check if this specific title exist
+                .body("userId", Matchers.hasItems(2, 7, 9));       // Validate that these userIds exist in the response
 
         /*
         If response body returns collection (list) :

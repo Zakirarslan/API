@@ -1,5 +1,6 @@
 package get_requests;
 
+import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import org.junit.Test;
 
@@ -53,7 +54,7 @@ public class Get01 {
 
         //3. Send the request and get the response
 
-        Response response = given().get(url);       // when() method is OPTIONAL
+        Response response = RestAssured.given().get(url);       // when() method is OPTIONAL
         response.prettyPrint();     //prints the response on the console
 
         System.out.println("Status Code = " + response.statusCode());

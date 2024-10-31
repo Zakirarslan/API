@@ -1,5 +1,7 @@
 package get_requests;
 import base_urls.RegressBaseUrl;
+import io.restassured.RestAssured;
+import org.hamcrest.Matchers;
 import org.testng.annotations.Test;
 
 import static io.restassured.RestAssured.*;
@@ -31,13 +33,13 @@ Yanıtın JSON yapısındaki kullanıcı sayısını doğrula (örneğin, en az 
         spec.pathParams("first", "api", "second" , "users")
                 .queryParam("page",2);
 
-        given(spec)
+        RestAssured.given(spec)
                 .when()
                 .get("{first}/{second}")
                 .then()
                 .statusCode(200)
-                .body("data.size()", greaterThan(0))
-                .body("data[0].first_name", equalTo("Michael"))
+                .body("data.size()", Matchers.greaterThan(0))
+                .body("data[0].first_name", Matchers.equalTo("Michael"))
                 .log().all();
     }
 }

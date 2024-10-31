@@ -1,7 +1,9 @@
 package get_requests;
 
+import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 
 import static io.restassured.RestAssured.*;
@@ -34,7 +36,7 @@ public class Get03 {
 
         // 2. Set the expected data
         // 3. Send the request and get the response
-        Response response = given().get(url);
+        Response response = RestAssured.given().get(url);
         response.prettyPrint();
 
         // 4. Do assertion
@@ -46,9 +48,9 @@ public class Get03 {
         response.then()
                 .statusCode(200)
                 .contentType(ContentType.JSON)          // ContentType.JSON ==> “application/json”
-                .body("title", equalTo("et itaque necessitatibus maxime molestiae qui quas velit"))
-                .body("completed", equalTo(false))
-                .body("userId", equalTo(2));
+                .body("title", CoreMatchers.equalTo("et itaque necessitatibus maxime molestiae qui quas velit"))
+                .body("completed", CoreMatchers.equalTo(false))
+                .body("userId", CoreMatchers.equalTo(2));
 
 
         //2nd way: Soft Assertion
@@ -57,8 +59,8 @@ public class Get03 {
         response.then()
                 .statusCode(200)
                 .contentType(ContentType.JSON)          // ContentType.JSON ==> “application/json”
-                .body("title", equalTo("54874et itaque necessitatibus maxime molestiae qui quas velit"),
-                        "completed", equalTo(true), "userId", equalTo(3));
+                .body("title", CoreMatchers.equalTo("54874et itaque necessitatibus maxime molestiae qui quas velit"),
+                        "completed", CoreMatchers.equalTo(true), "userId", CoreMatchers.equalTo(3));
 
         //NOTE:
         // Hard Assertion stops the code/system straightaway as soon as it encounters any error

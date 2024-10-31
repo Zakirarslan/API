@@ -1,8 +1,10 @@
 package get_requests;
 
 import base_urls.HerokuAppBaseUrl;
+import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 import io.restassured.response.Response;
+import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 
 import static io.restassured.RestAssured.given;
@@ -41,7 +43,7 @@ public class Get06 extends HerokuAppBaseUrl {
         spec.pathParams("p1","booking", "p2", "130");
 
         //Send the request and get the response
-        Response response = given(spec).get("{p1}/{p2}");         // syntax for more than one path param => "{}/{}"
+        Response response = RestAssured.given(spec).get("{p1}/{p2}");         // syntax for more than one path param => "{}/{}"
         response.prettyPrint();
 
         // Assertion
@@ -50,26 +52,26 @@ public class Get06 extends HerokuAppBaseUrl {
         response.then()
                 .statusCode(200)
                 .contentType(ContentType.JSON)
-                .body("firstname", equalTo("John"),
-                        "lastname", equalTo("Smith"),
-                        "totalprice", equalTo(111),
-                        "depositpaid", equalTo(true),
-                        "bookingdates.checkin", equalTo("2018-01-01"),
-                        "bookingdates.checkout", equalTo("2019-01-01"),
-                        "additionalneeds", equalTo("Breakfast"));
+                .body("firstname", CoreMatchers.equalTo("John"),
+                        "lastname", CoreMatchers.equalTo("Smith"),
+                        "totalprice", CoreMatchers.equalTo(111),
+                        "depositpaid", CoreMatchers.equalTo(true),
+                        "bookingdates.checkin", CoreMatchers.equalTo("2018-01-01"),
+                        "bookingdates.checkout", CoreMatchers.equalTo("2019-01-01"),
+                        "additionalneeds", CoreMatchers.equalTo("Breakfast"));
 
 
             //is() method
             response.then()
                     .statusCode(200)
                     .contentType(ContentType.JSON)
-                    .body("firstname", is("John"),
-                            "lastname", is("Smith"),
-                            "totalprice", is(111),
-                            "depositpaid", is(true),
-                            "bookingdates.checkin", is("2018-01-01"),
-                            "bookingdates.checkout", is("2019-01-01"),
-                            "additionalneeds", is("Breakfast"));
+                    .body("firstname", CoreMatchers.is("John"),
+                            "lastname", CoreMatchers.is("Smith"),
+                            "totalprice", CoreMatchers.is(111),
+                            "depositpaid", CoreMatchers.is(true),
+                            "bookingdates.checkin", CoreMatchers.is("2018-01-01"),
+                            "bookingdates.checkout", CoreMatchers.is("2019-01-01"),
+                            "additionalneeds", CoreMatchers.is("Breakfast"));
 
             /*
             NOTE: We have multiple ways of extracting the data out of the response body;
