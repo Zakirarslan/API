@@ -12,6 +12,7 @@ import java.util.HashMap;
 
 import static io.restassured.RestAssured.given;
 import static org.junit.Assert.assertEquals;
+import static utils.ObjectMapperUtils.convertJsonToJava;
 
 public class Post09_WithReusableMethod extends JsonPlaceHolderBaseUrl {
     /*Given
@@ -33,7 +34,7 @@ public class Post09_WithReusableMethod extends JsonPlaceHolderBaseUrl {
         }
         */
     @Test
-    public void post08() throws JsonProcessingException {
+    public void post09() throws JsonProcessingException {
        /*
         Given
         1) https://jsonplaceholder.typicode.com/todos
@@ -70,21 +71,22 @@ public class Post09_WithReusableMethod extends JsonPlaceHolderBaseUrl {
         //Do assertion
         //De-serialization
         //1st way: asString();
-        System.out.println("response.asString() = " + response.asString());
-        //2nd way: JsonPath
-        JsonPath jsonPath = response.jsonPath();
-        System.out.println("jsonPath.getString(\"title\") = " + jsonPath.getString("title"));
-        //3rd way: HashMap
-        System.out.println("response.as(HashMap.class) = " + response.as(HashMap.class));
-        //4th way: POJO
-        System.out.println("response.as(JsonPlaceHolderPojo.class) = " + response.as(JsonPlaceHolderPojo.class));
-        //5th way: Object Mapper with POJO
-        JsonPlaceHolderPojo actualData = new ObjectMapper().readValue(response.asString(), JsonPlaceHolderPojo.class);
 
+        //2nd way: JsonPath
+
+        //3rd way: HashMap
+
+        //4th way: POJO
+
+        //5th way: Object Mapper with POJO
+        JsonPlaceHolderPojo actualData = convertJsonToJava(response.asString(),JsonPlaceHolderPojo.class);
+        System.out.println("actualData = " + actualData);
         assertEquals(201, response.statusCode());
         assertEquals(payload.getUserId(), actualData.getUserId());
         assertEquals(payload.getTitle(), actualData.getTitle());
         assertEquals(payload.getCompleted(), actualData.getCompleted());
+
+
     }
 }
 
